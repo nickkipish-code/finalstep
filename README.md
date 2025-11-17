@@ -43,17 +43,32 @@
 ### Запуск
 
 **Вариант 1: Автоматический (Windows)**
+
+CMD:
 ```bash
 install.bat  # Первый раз
 start.bat    # Запуск
 ```
 
+PowerShell:
+```powershell
+.\install.ps1  # Первый раз
+.\start.ps1    # Запуск
+```
+
 **Вариант 2: Ручной**
 
-Terminal 1 (Backend):
+CMD (Terminal 1 - Backend):
 ```bash
 cd backend
 venv\Scripts\activate
+python main.py
+```
+
+PowerShell (Terminal 1 - Backend):
+```powershell
+cd backend
+.\venv\Scripts\Activate.ps1
 python main.py
 ```
 
@@ -64,6 +79,12 @@ npm run dev
 ```
 
 Откройте [http://localhost:3000](http://localhost:3000) в браузере.
+
+> **Примечание для PowerShell:** Если возникает ошибка "execution policy", выполните:
+> ```powershell
+> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+> ```
+> Подробнее см. [POWERSHELL_INSTRUCTIONS.md](./POWERSHELL_INSTRUCTIONS.md)
 
 ## 📁 Структура проекта
 
