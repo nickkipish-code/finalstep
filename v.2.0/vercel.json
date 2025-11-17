@@ -1,0 +1,19 @@
+{
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "outputDirectory": ".next",
+  "regions": ["iad1"],
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "@supabase-url",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase-anon-key",
+    "SUPABASE_SERVICE_ROLE_KEY": "@supabase-service-role-key",
+    "GOOGLE_GEMINI_API_KEY": "@google-gemini-api-key",
+    "AUTH_SECRET": "@auth-secret",
+    "AUTH_GOOGLE_ID": "@auth-google-id",
+    "AUTH_GOOGLE_SECRET": "@auth-google-secret",
+    "NEXTAUTH_URL": "@nextauth-url"
+  }
+}
+

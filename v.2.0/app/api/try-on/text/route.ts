@@ -1,0 +1,73 @@
+/**
+ * Text to Image endpoint
+ * Генерация примерки по текстовому описанию
+ */
+
+import { NextRequest, NextResponse } from 'next/server'
+import { generateTryOnImage } from '@/lib/gemini/generators'
+
+export async function POST(request: NextRequest) {
+  try {
+    const formData = await request.formData()
+    
+    // Получаем данные из формы
+    const personImageFile = formData.get('person_image') as File
+    const clothingDescription = formData.get('clothing_description') as string
+    
+    if (!personImageFile) {
+      return NextResponse.json(
+        { error: 'Не предоставлено изображение человека' },
+        { status: 400 }
+      )
+    }
+    
+    if (!clothingDescription) {
+      return NextResponse.json(
+        { error: 'Не предоставлено описание одежды' },
+        { status: 400 }
+      )
+    }
+    
+    console.log(`📸 Получено изображение человека: ${personImageFile.name}`)
+    console.log(`📝 Описание одежды: ${clothingDescription}`)
+    
+    // Конвертация File в Buffer
+    const personImageBuffer = Buffer.from(await personImageFile.arrayBuffer())
+    
+    // Генерация результата
+    const resultBuffer = await generateTryOnImage({
+      personImage: personImageBuffer,
+      clothingDescription,
+    })
+    
+    // Возвращаем изображение
+    return new NextResponse(resultBuffer, {
+      headers: {
+        'Content-Type': 'image/png',
+        'Content-Disposition': 'inline; filename=result.png',
+      },
+    })
+  } catch (error: any) {
+    console.error('❌ Ошибка обработки запроса:', error)
+    
+    // Обработка специфичных ошибок
+    if (error.message?.includes('quota') || error.message?.includes('429') || error.message?.includes('rate limit')) {
+      return NextResponse.json(
+        { error: `Превышена квота Gemini API. Попробуйте позже. ${error.message}` },
+        { status: 429 }
+      )
+    }
+    
+    return NextResponse.json(
+      { error: error.message || 'Ошибка генерации изображения' },
+      { status: 500 }
+    )
+  }
+}
+
+export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
+
+// Увеличиваем лимиты для обработки изображений
+export const maxDuration = 60 // 60 seconds
+
