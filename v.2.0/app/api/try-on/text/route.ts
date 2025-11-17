@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
     })
     
     // Возвращаем изображение
-    return new NextResponse(resultBuffer, {
+    return new NextResponse(new Uint8Array(resultBuffer), {
       headers: {
         'Content-Type': 'image/png',
         'Content-Disposition': 'inline; filename=result.png',

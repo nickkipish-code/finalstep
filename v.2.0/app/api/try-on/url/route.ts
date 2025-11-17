@@ -41,7 +41,7 @@ export async function POST(request: NextRequest) {
       )
     }
     
-    console.log('=' * 50)
+    console.log('='.repeat(50))
     console.log('🚀 Начало обработки запроса /api/try-on/url')
     console.log(`📸 Получено изображение человека: ${personImageFile.name}`)
     console.log(`🔗 Ссылка на товар: ${productUrl}`)
@@ -104,10 +104,10 @@ export async function POST(request: NextRequest) {
     })
     
     console.log('✅ Генерация завершена')
-    console.log('=' * 50)
+    console.log('='.repeat(50))
     
     // Возвращаем изображение
-    return new NextResponse(resultBuffer, {
+    return new NextResponse(new Uint8Array(resultBuffer), {
       headers: {
         'Content-Type': 'image/png',
         'Content-Disposition': 'inline; filename=result.png',
@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
     })
   } catch (error: any) {
     console.error('❌ Ошибка обработки запроса:', error)
-    console.log('=' * 50)
+    console.log('='.repeat(50))
     
     // Обработка специфичных ошибок
     if (error.message?.includes('quota') || error.message?.includes('429') || error.message?.includes('rate limit')) {

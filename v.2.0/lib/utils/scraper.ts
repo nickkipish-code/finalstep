@@ -49,9 +49,10 @@ export async function extractImageURLsFromHTML(
         }
 
         // Фильтрация маленьких изображений (иконки, логотипы)
+        const finalUrl = imgUrl
         const skipKeywords = ['icon', 'logo', 'avatar', 'thumb', 'small', 'banner', 'ad']
-        if (!skipKeywords.some((keyword) => imgUrl.toLowerCase().includes(keyword))) {
-          imageUrls.add(imgUrl)
+        if (finalUrl && !skipKeywords.some((keyword) => finalUrl.toLowerCase().includes(keyword))) {
+          imageUrls.add(finalUrl)
         }
       }
     })
@@ -73,9 +74,10 @@ export async function extractImageURLsFromHTML(
           imgUrl = new URL(imgUrl, baseUrl).href
         }
 
+        const finalUrl = imgUrl
         const skipKeywords = ['icon', 'logo', 'avatar', 'thumb', 'small', 'banner', 'ad']
-        if (!skipKeywords.some((keyword) => imgUrl.toLowerCase().includes(keyword))) {
-          imageUrls.add(imgUrl)
+        if (finalUrl && !skipKeywords.some((keyword) => finalUrl.toLowerCase().includes(keyword))) {
+          imageUrls.add(finalUrl)
         }
       }
     })
